@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerShell Script - Pragati Effort Calculator</title>
+    <link rel="stylesheet" href="psstyles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PowerShell Script - Pragati Effort Calculator</h1>
+        <div class="code-block">
+            <pre id="powershellScript">
+<code>function Calculate-Effort {
+    param (
+        [double]$salary,
+        [double]$hoursPerDay,
+        [double]$daysPerWeek,
+        [double]$estimatedHours,
+        [double]$actualHours
+    )
+
+    $usdConversionRate = 1 / 83.97
+
+    $totalHoursPerMonth = $hoursPerDay * $daysPerWeek * 4.33
+    $hourlyWage = $salary / $totalHoursPerMonth
+    $timeSaved = $estimatedHours - $actualHours
+    $costSavings = $timeSaved * $hourlyWage
+    $costSavingsUSD = $costSavings * $usdConversionRate
+    
+    Write-Host ("Hourly Wage: ₹{0:F2}" -f $hourlyWage)
+    Write-Host ("Time Saved: {0:F2} hours" -f $timeSaved)
+    Write-Host ("Cost Saved: ₹{0:F2}" -f $costSavings)
+    Write-Host ("Cost Saved in USD: `$`{0:F2}" -f $costSavingsUSD)
+}
+
+$salary = Read-Host "Enter your monthly salary in ₹"
+$hoursPerDay = Read-Host "Enter hours worked per day"
+$daysPerWeek = Read-Host "Enter days worked per week"
+$estimatedHours = Read-Host "Enter estimated hours for task with old/manual process"
+$actualHours = Read-Host "Enter actual hours taken with new/automated process"
+
+Calculate-Effort -salary $salary -hoursPerDay $hoursPerDay -daysPerWeek $daysPerWeek -estimatedHours $estimatedHours -actualHours $actualHours</code>
+            </pre>
+            <button id="copyButton">Copy</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const code = document.getElementById('powershellScript').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('PowerShell script copied to clipboard!');
+            });
+        });
+    </script>
+</body>
+</html>
