@@ -17,30 +17,44 @@
         [double]$hoursPerDay,
         [double]$daysPerWeek,
         [double]$estimatedHours,
-        [double]$actualHours
+        [double]$estimatedMinutes,
+        [double]$actualHours,
+        [double]$actualMinutes
     )
 
     $usdConversionRate = 1 / 83.97
-
     $totalHoursPerMonth = $hoursPerDay * $daysPerWeek * 4.33
     $hourlyWage = $salary / $totalHoursPerMonth
-    $timeSaved = $estimatedHours - $actualHours
+
+    $totalEstimatedTime = $estimatedHours + ($estimatedMinutes / 60)
+    $totalActualTime = $actualHours + ($actualMinutes / 60)
+
+    $timeSaved = $totalEstimatedTime - $totalActualTime
     $costSavings = $timeSaved * $hourlyWage
     $costSavingsUSD = $costSavings * $usdConversionRate
-    
+    $timeSavedInYear = $timeSaved * $daysPerWeek * 52
+    $costSavingsInYear = $costSavings * $daysPerWeek * 4.33 * 12
+    $costSavingsUSDInYear = $costSavingsInYear * $usdConversionRate
+
     Write-Host ("Hourly Wage: ₹{0:F2}" -f $hourlyWage)
     Write-Host ("Time Saved: {0:F2} hours" -f $timeSaved)
     Write-Host ("Cost Saved: ₹{0:F2}" -f $costSavings)
     Write-Host ("Cost Saved in USD: `$`{0:F2}" -f $costSavingsUSD)
+    Write-Host ("Time Saved in a Year: {0:F2} hours" -f $timeSavedInYear)
+    Write-Host ("Cost Saved in a Year: ₹{0:F2}" -f $costSavingsInYear)
+    Write-Host ("Cost Saved in a Year in USD: `$`{0:F2}" -f $costSavingsUSDInYear)
 }
 
 $salary = Read-Host "Enter your monthly salary in ₹"
 $hoursPerDay = Read-Host "Enter hours worked per day"
 $daysPerWeek = Read-Host "Enter days worked per week"
 $estimatedHours = Read-Host "Enter estimated hours for task with old/manual process"
+$estimatedMinutes = Read-Host "Enter estimated minutes for task with old/manual process"
 $actualHours = Read-Host "Enter actual hours taken with new/automated process"
+$actualMinutes = Read-Host "Enter actual minutes taken with new/automated process"
 
-Calculate-Effort -salary $salary -hoursPerDay $hoursPerDay -daysPerWeek $daysPerWeek -estimatedHours $estimatedHours -actualHours $actualHours</code>
+Calculate-Effort -salary $salary -hoursPerDay $hoursPerDay -daysPerWeek $daysPerWeek -estimatedHours $estimatedHours -estimatedMinutes $estimatedMinutes -actualHours $actualHours -actualMinutes $actualMinutes
+</code>
             </pre>
             <button id="copyButton">Copy</button>
         </div>
